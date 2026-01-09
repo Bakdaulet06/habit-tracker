@@ -118,3 +118,11 @@ button{
     gap: 10px;
     flex-direction: column;
 }
+
+.completed {
+  background-color: green;
+}
+
+.not-completed {
+  background-color: red;
+}

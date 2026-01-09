@@ -1,6 +1,23 @@
-function Table(props) {
-  const leftBarStyle = {width: "300px", padding: "5px"}
-  const habits = props.habits
+function Table({habits, setHabits, currentDate}) {
+  function getWeekKey(date) {
+    const day = date.getDay();
+    date.setDate(date.getDate() - ((day + 6) % 7))
+    return date.toISOString().split("T")[0]
+  }
+  const weekKey = getWeekKey(currentDate)
+
+  function toggleDay(habitIndex, dayIndex) {
+    const updatedHabits = [...habits]
+    const habit = updatedHabits[habitIndex]
+    const weekData = habit.completed[weekKey] ? [...habit.completed[weekKey]] : Array(7).fill(false);
+    weekData[dayIndex] = !weekData[dayIndex];
+    habit.completed = {
+      ...habit.completed,
+      [weekKey]: weekData
+    };
+    updatedHabits[habitIndex] = habit;
+    setHabits(updatedHabits)
+  }
   return(
     <>
       <div className="table">
@@ -18,20 +35,23 @@ function Table(props) {
         </div>
         <div className="table-body">
           {
-            habits.map((habit, index) => (
-              <div className="table-habit table-separator" key={index}>
-                <div className="table-habit-title">{habit.title}</div>
-                <div className="days">
-                  <div className="day"></div>
-                  <div className="day"></div>
-                  <div className="day"></div>
-                  <div className="day"></div>
-                  <div className="day"></div>
-                  <div className="day"></div>
-                  <div className="day"></div>
+            habits.map((habit, index) => {
+              const weekData = habit.completed[weekKey] || Array(7).fill(false);
+              return (
+                <div className="table-habit table-separator" key={index}>
+                  <div className="table-habit-title">{habit.title}</div>
+                  <div className="days">
+                    {weekData.map((done, i) => (
+                      <div
+                        key={i}
+                        className={`day ${done ? "completed" : "not-completed"}`}
+                        onClick={() => toggleDay(index, i)} 
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))
+              )
+            })
           }
         </div>
       </div>

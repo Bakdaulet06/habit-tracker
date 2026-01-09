@@ -7,7 +7,7 @@ function HabitList({habits, setHabits}) {
 
   const addHabit = () => {
     if (!title || !description) return;
-    setHabits([...habits, { title, description }]);
+    setHabits([...habits, { title, description, completed: {}}]);
     setTitle("");
     setDescription("");
   };

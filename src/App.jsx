@@ -38,7 +38,7 @@ function App() {
 
       {view === "table" && (
         <div className="table-wrapper">
-          <Table habits={habits} />
+          <Table habits={habits} setHabits={setHabits} currentDate={currentDate} />
 
           <div className="week-changer" style={{ marginTop: "20px" }}>
             <div style={{ display: "flex", gap: "10px" }}>
