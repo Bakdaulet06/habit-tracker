@@ -118,26 +118,39 @@ function HabitList({ habits, setHabits }) {
 }
 
 function HabitCard({ habit, index, editHabit, deleteHabit }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="group bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 flex items-center justify-between hover:border-zinc-700 transition-all">
+    <div
+      onClick={() => setOpen((o) => !o)}
+      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 flex items-center justify-between hover:border-zinc-700 transition-all cursor-pointer"
+    >
       <div className="space-y-0.5 min-w-0 flex-1 pr-4">
         <p className="text-sm font-semibold text-zinc-100 truncate">{habit.title}</p>
         <p className="text-xs text-zinc-500 truncate">{habit.description}</p>
       </div>
-      <div className="flex items-center gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button
-          onClick={() => editHabit(index)}
-          className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 border border-zinc-700 hover:border-zinc-500 hover:text-zinc-200 transition-all active:scale-95"
+
+      {open ? (
+        <div
+          className="flex items-center gap-2 shrink-0"
+          onClick={(e) => e.stopPropagation()}
         >
-          Edit
-        </button>
-        <button
-          onClick={() => deleteHabit(index)}
-          className="px-3 py-1.5 rounded-lg text-xs text-red-500 border border-zinc-700 hover:border-red-800 hover:bg-red-950 transition-all active:scale-95"
-        >
-          Delete
-        </button>
-      </div>
+          <button
+            onClick={() => editHabit(index)}
+            className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 border border-zinc-700 hover:border-zinc-500 hover:text-zinc-200 transition-all active:scale-95"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => deleteHabit(index)}
+            className="px-3 py-1.5 rounded-lg text-xs text-red-500 border border-zinc-700 hover:border-red-800 hover:bg-red-950 transition-all active:scale-95"
+          >
+            Delete
+          </button>
+        </div>
+      ) : (
+        <span className="text-zinc-700 text-lg shrink-0">···</span>
+      )}
     </div>
   );
 }
